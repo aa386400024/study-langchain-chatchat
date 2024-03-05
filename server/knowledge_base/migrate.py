@@ -22,33 +22,23 @@ from typing import Literal, List
 
 
 def create_tables():
-    """
-    创建数据库表
-
-    :return: None
-    """
     Base.metadata.create_all(bind=engine)
 
 
 def reset_tables():
-    """
-    重置数据库表结构
-
-    :return: None
-    """
     Base.metadata.drop_all(bind=engine)
     create_tables()
 
 
 def import_from_db(
-    sqlite_path: str = None,
-    # csv_path: str = None,
+        sqlite_path: str = None,
+        # csv_path: str = None,
 ) -> bool:
     """
-    从备份数据库中导入数据到 info.db。
-    当 info.db 结构发生变化但无需重新向量化时，适用于版本升级。
-    请确保两边数据库表名一致，需要导入的字段名一致。
-    当前仅支持 sqlite。
+    在知识库与向量库无变化的情况下，从备份数据库中导入数据到 info.db。
+    适用于版本升级时，info.db 结构变化，但无需重新向量化的情况。
+    请确保两边数据库表名一致，需要导入的字段名一致
+    当前仅支持 sqlite
     """
     import sqlite3 as sql
     from pprint import pprint
@@ -80,40 +70,34 @@ def import_from_db(
 
 
 def file_to_kbfile(kb_name: str, files: List[str]) -> List[KnowledgeFile]:
-    # 创建一个空列表，用于存储转换后的知识文件
     kb_files = []
-    # 遍历文件列表
     for file in files:
         try:
-            # 创建一个知识文件对象，指定文件名和知识库名称
             kb_file = KnowledgeFile(filename=file, knowledge_base_name=kb_name)
-            # 将知识文件对象添加到列表中
             kb_files.append(kb_file)
         except Exception as e:
-            # 如果出现异常，记录错误信息
             msg = f"{e}，已跳过"
             logger.error(f'{e.__class__.__name__}: {msg}',
                          exc_info=e if log_verbose else None)
-    # 返回转换后的知识文件列表
     return kb_files
 
 
 def folder2db(
-    kb_names: List[str],
-    mode: Literal["recreate_vs", "update_in_db", "increment"],
-    vs_type: Literal["faiss", "milvus", "pg", "chromadb"] = DEFAULT_VS_TYPE,
-    embed_model: str = EMBEDDING_MODEL,
-    chunk_size: int = CHUNK_SIZE,
-    chunk_overlap: int = OVERLAP_SIZE,
-    zh_title_enhance: bool = ZH_TITLE_ENHANCE,
+        kb_names: List[str],
+        mode: Literal["recreate_vs", "update_in_db", "increment"],
+        vs_type: Literal["faiss", "milvus", "pg", "chromadb"] = DEFAULT_VS_TYPE,
+        embed_model: str = EMBEDDING_MODEL,
+        chunk_size: int = CHUNK_SIZE,
+        chunk_overlap: int = OVERLAP_SIZE,
+        zh_title_enhance: bool = ZH_TITLE_ENHANCE,
 ):
     """
-    使用本地文件夹中的文件填充数据库和向量存储。
-    设置参数`mode`为：
-        recreate_vs：重新创建所有向量存储并使用本地文件夹中的文件填充数据库信息
-        fill_info_only（禁用）：不创建向量存储，仅使用本地文件填充数据库信息
-        update_in_db：使用仅存在于数据库中的本地文件更新向量存储和数据库信息
-        increment：仅创建本地文件中不存在于数据库中的向量存储和数据库信息
+    use existed files in local folder to populate database and/or vector store.
+    set parameter `mode` to:
+        recreate_vs: recreate all vector store and fill info to database using existed files in local folder
+        fill_info_only(disabled): do not create vector store, fill info to db using existed files only
+        update_in_db: update vector store and database info using local files that existed in database only
+        increment: create vector store and database info for local files that not existed in database only
     """
 
     def files2vs(kb_name: str, kb_files: List[KnowledgeFile]):
@@ -143,6 +127,7 @@ def folder2db(
             kb_files = file_to_kbfile(kb_name, list_files_from_folder(kb_name))
             files2vs(kb_name, kb_files)
             kb.save_vector_store()
+        # # 不做文件内容的向量化，仅将文件元信息存到数据库
         # # 由于现在数据库存了很多与文本切分相关的信息，单纯存储文件信息意义不大，该功能取消。
         # elif mode == "fill_info_only":
         #     files = list_files_from_folder(kb_name)
@@ -165,13 +150,13 @@ def folder2db(
             files2vs(kb_name, kb_files)
             kb.save_vector_store()
         else:
-            print(f"不支持的迁移模式：{mode}")
+            print(f"unsupported migrate mode: {mode}")
 
 
 def prune_db_docs(kb_names: List[str]):
     """
-    删除数据库中不存在于本地文件夹中的文档。
-    用于在用户删除文件浏览器中的一些文档文件后删除数据库文档。
+    delete docs in database that not existed in local folder.
+    it is used to delete database docs after user deleted some doc files in file browser
     """
     for kb_name in kb_names:
         kb = KBServiceFactory.get_service_by_name(kb_name)
@@ -182,14 +167,14 @@ def prune_db_docs(kb_names: List[str]):
             kb_files = file_to_kbfile(kb_name, files)
             for kb_file in kb_files:
                 kb.delete_doc(kb_file, not_refresh_vs_cache=True)
-                print(f"成功删除文件：{kb_name}/{kb_file.filename}的文档")
+                print(f"success to delete docs for file: {kb_name}/{kb_file.filename}")
             kb.save_vector_store()
 
 
 def prune_folder_files(kb_names: List[str]):
     """
-    删除本地文件夹中数据库中不存在的文档文件。
-    用于通过删除未使用的文档文件来释放本地磁盘空间。
+    delete doc files in local folder that not existed in database.
+    it is used to free local disk space by delete unused doc files.
     """
     for kb_name in kb_names:
         kb = KBServiceFactory.get_service_by_name(kb_name)
@@ -199,4 +184,4 @@ def prune_folder_files(kb_names: List[str]):
             files = list(set(files_in_folder) - set(files_in_db))
             for file in files:
                 os.remove(get_file_path(kb_name, file))
-                print(f"成功删除文件: {kb_name}/{file}")
+                print(f"success to delete file: {kb_name}/{file}")

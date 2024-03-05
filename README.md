@@ -16,15 +16,15 @@
 
 ## 目录
 
-- [介绍](README.md#介绍)
-- [解决的痛点](README.md#解决的痛点)
-- [快速上手](README.md#快速上手)
-  - [1. 环境配置](README.md#1-环境配置)
-  - [2. 模型下载](README.md#2-模型下载)
-  - [3. 初始化知识库和配置文件](README.md#3-初始化知识库和配置文件)
-  - [4. 一键启动](README.md#4-一键启动)
-  - [5. 启动界面示例](README.md#5-启动界面示例)
-- [联系我们](README.md#联系我们)
+* [介绍](README.md#介绍)
+* [解决的痛点](README.md#解决的痛点)
+* [快速上手](README.md#快速上手)
+    * [1. 环境配置](README.md#1-环境配置)
+    * [2. 模型下载](README.md#2-模型下载)
+    * [3. 初始化知识库和配置文件](README.md#3-初始化知识库和配置文件)
+    * [4. 一键启动](README.md#4-一键启动)
+    * [5. 启动界面示例](README.md#5-启动界面示例)
+* [联系我们](README.md#联系我们)
 
 ## 介绍
 
@@ -59,7 +59,7 @@ OpenAI GPT API 的调用，并将在后续持续扩充对各类模型及模型 A
 
 版本所使用代码已更新至本项目 `v0.2.10` 版本。
 
-🐳 [Docker 镜像](registry.cn-beijing.aliyuncs.com/chatchat/chatchat:0.2.7) 已经更新到 `0.2.7` 版本。
+🐳 [Docker 镜像](registry.cn-beijing.aliyuncs.com/chatchat/chatchat:0.2.7) 已经更新到 ```0.2.7``` 版本。
 
 🌲 一行命令运行 Docker ：
 
@@ -67,247 +67,31 @@ OpenAI GPT API 的调用，并将在后续持续扩充对各类模型及模型 A
 docker run -d --gpus all -p 80:8501 registry.cn-beijing.aliyuncs.com/chatchat/chatchat:0.2.7
 ```
 
-🧩 本项目有一个非常完整的[Wiki](https://github.com/chatchat-space/Langchain-Chatchat/wiki/) ， README 只是一个简单的介绍，\_
-\_仅仅是入门教程，能够基础运行\_\_。
+🧩 本项目有一个非常完整的[Wiki](https://github.com/chatchat-space/Langchain-Chatchat/wiki/) ， README只是一个简单的介绍，_
+_仅仅是入门教程，能够基础运行__。
 如果你想要更深入的了解本项目，或者想对本项目做出贡献。请移步 [Wiki](https://github.com/chatchat-space/Langchain-Chatchat/wiki/)
 界面
 
 ## 解决的痛点
 
-该项目是一个可以实现 **完全本地化**推理的知识库增强方案, 重点解决数据安全保护，私域化部署的企业痛点。
-本开源方案采用`Apache License`，可以免费商用，无需付费。
+该项目是一个可以实现 __完全本地化__推理的知识库增强方案, 重点解决数据安全保护，私域化部署的企业痛点。
+本开源方案采用```Apache License```，可以免费商用，无需付费。
 
-我们支持市面上主流的本地大语言模型和 Embedding 模型，支持开源的本地向量数据库。
+我们支持市面上主流的本地大语言模型和Embedding模型，支持开源的本地向量数据库。
 支持列表详见[Wiki](https://github.com/chatchat-space/Langchain-Chatchat/wiki/)
 
 ## 快速上手
 
 ### 1. 环境配置
 
-Ubuntu系统环境下GPU驱动+CUDA+cuDNN的安装方法
-1. 下载安装文件
-[NVIDIA CUDA Toolkit Archive](https://developer.nvidia.com/cuda-toolkit-archive)
-点击上面链接，进入CUDA Toolkit Archive，下载需要的CUDA工具包，本文章以CUDA Toolkit 12.3.2 版本举例（可能需要代理加速访问网页）
-
-![](img/CUDA_Toolkit.jpg)
-
-选择对应的系统，架构，发行版本，选择run文件安装方式
-
-（可在服务器中输入uname -a查看当前服务器系统版本信息）
-
-![](img/uname.jpg)
-
-![](img/select-target.jpg)
-
-选择完后会出现run文件下载链接，可复制wget命令直接在服务器中下载，也可复制下载链接到浏览器上，通过本地浏览器下载再上传至服务器中。
-
-![](img/base-installer.jpg)
-
-![](img/run-wget.jpg)
-
-2. 禁用 nouveau 驱动
-
-```shell
-$ sudo vim /etc/modprobe.d/blacklist-nouveau.conf
-```
-
-文件最后加入以下内容
++ 首先，确保你的机器安装了 Python 3.8 - 3.11 (我们强烈推荐使用 Python3.11)。
 
 ```
-blacklist nouveau
-options nouveau.modeset=0
-```
-![](img/blacklist-nouveau.jpg)
-
-更新使其生效
-
-```shell
-$ sudo update-initramfs -u
+$ python --version
+Python 3.11.7
 ```
 
-![](img/update-initramfs.jpg)
-
-重启机器
-
-```bash
-$ reboot
-```
-
-重启后查看确认
-
-```bash
-$ lsmod | grep nouveau
-```
-没有内容输出，说明禁用成功
-
-3. 安装gcc/cmake
-
-依次执行
-
-```shell
-$ sudo apt-get update
-$ sudo apt-get install gcc
-$ sudo apt-get install cmake
-```
-
-查看gcc版本
-
-```shell
-$ gcc --version
-$ cmake --version
-```
-![](img/gcc-cmake.jpg)
-
-4. 运行安装文件
-
-输入ls命令查看运行文件
-
-输入chmod -x {文件名}赋予run文件执行权限
-
-![](img/chmod_cuda.jpg)
-
-输入sh {文件名}运行run文件
-
-![](img/sh-cuda.jpg)
-
-等待一会儿后会弹出NVIDIA用户协议输入accept同意
-
-![](img/accept.jpg)
-
-默认选中显卡驱动，选择install一起安装即可
-
-![](img/driver_install.jpg)
-
-等待程序运行，需要等待一会儿。。。。
-
-安装完成后，如下图
-
-![](img/summary.jpg)
-
-添加自己需要的cuda版本到环境变量, vim ~/.bashrc，添加以下内容到最后，如：
-
-```shell
-$ export PATH=/usr/local/cuda-12.3/bin:$PATH                                                                                                                                                                                                 
-$ export LD_LIBRARY_PATH=/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH
-```
-
-![](img/cuda-path.jpg)
-
-内容输入后，:wq 保存退出，
-输入source ~/.bashrc  更新环境变量使刚刚输入的环境变量生效，输入nvcc -V 查看CUDA版本
-
-![](img/cuda-version.jpg)
-
-输入命令nvidia-smi查看显卡驱动与CUDA版本，如下图所示，说明安装成功。
-
-![](img/nvidia-smi.jpg)
-
-5. 配置cuDNN库
-
-cuDNN比CUDA安装简单，下载对应版本压缩包，拷贝文件到指定目录，给予权限就好了。
-
-需要登录NVIDIA账号
-[cuDNN官方下载地址](https://developer.nvidia.com/rdp/cudnn-archive)
-
-![](img/Local_Installer_for_Linux_x86_64.jpg)
-
-将tar包下载至服务器上，解压tar包，并将文件cp至对应位置命令如下：
-
-```shell
-$ tar -xvf cudnn-linux-$arch-8.x.x.x_cudaX.Y-archive.tar.xz
-$ cp cudnn-*-archive/include/cudnn*.h /usr/local/cuda/include 
-$ cp -P cudnn-*-archive/lib/libcudnn* /usr/local/cuda/lib64 
-$ chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
-
-#加上版本号后，实际执行命令如下
-$ tar -xvf cudnn-linux-x86_64-8.9.7.29_cuda12-archive.tar.xz  
-$ cp cudnn-linux-x86_64-8.9.7.29_cuda12-archive/include/cudnn*.h /usr/local/cuda/include
-$ cp -P cudnn-linux-x86_64-8.9.7.29_cuda12-archive/lib/libcudnn* /usr/local/cuda/lib64
-$ chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
-```
-
-使用以下命令查看cuDNN是否配置完成
-
-```shell
-$ cat /usr/local/cuda/include/cudnn_version.h | grep CUDNN_MAJOR -A 2   
-```
-
-![](img/cudnn_version.jpg)
-
-
-
-
-#### 安装 Python 3.11
-
-1. **添加 DeadSnakes PPA**：
-   为了获取更多 Python 版本的访问权限，首先需要添加 DeadSnakes PPA 到你的 linux 系统，我用的是Ubuntu。在终端执行以下命令：
-
-   ```bash
-   sudo apt update
-   sudo apt install software-properties-common
-   sudo add-apt-repository ppa:deadsnakes/ppa
-   ```
-
-2. **安装 Python 3.11**：
-   添加 PPA 之后，使用下列命令安装 Python 3.11：
-
-   ```bash
-   sudo apt update
-   sudo apt install python3.11
-   ```
-
-3. **验证 Python 安装**：
-   确认 Python 3.11 安装成功：
-
-   ```bash
-   python3.11 --version
-   ```
-
-#### 配置 Python 和 pip 别名（可选）
-
-为了简化命令，你可以设置`python`和`pip`的别名。在`~/.bashrc`或`~/.zshrc`文件中添加以下行：
-
-```bash
-alias python=python3.11
-```
-
-#### 安装 pip
-
-确保为 Python 3.11 安装`pip`：
-
-```bash
-sudo apt update
-sudo apt install python3-pip
-```
-
-#### 创建和激活虚拟环境
-
-为了隔离项目依赖，推荐为每个项目创建一个虚拟环境。
-
-1. **创建虚拟环境**：
-   首先，确认已安装 Python 3.11，然后创建虚拟环境：
-
-   ```bash
-   python3.11 -m venv myenv
-   ```
-
-   这里`myenv`是虚拟环境的名称，这个命令在当前目录下创建名为`myenv`的文件夹，内含虚拟环境。
-
-2. **激活虚拟环境**：
-   创建虚拟环境后，激活它以开始在其中安装依赖和运行项目。在 Linux 或 macOS 上，使用以下命令：
-
-   ```bash
-   source myenv/bin/activate
-   ```
-
-通过以上步骤，你的 Linux 系统将为 Python 开发配置好所需的环境，包括 Python 的安装、虚拟环境的设置及`pip`的配置。
-
-如下载资源过慢可调整pip使用清华源
-
-```
-#设置清华源，加速安装
-pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-```
+接着，创建一个虚拟环境，并在虚拟环境内安装项目的依赖
 
 ```shell
 
@@ -318,9 +102,9 @@ $ git clone https://github.com/chatchat-space/Langchain-Chatchat.git
 $ cd Langchain-Chatchat
 
 # 安装全部依赖
-$ pip install -r requirements.txt
+$ pip install -r requirements.txt 
 $ pip install -r requirements_api.txt
-$ pip install -r requirements_webui.txt
+$ pip install -r requirements_webui.txt  
 
 # 默认依赖包括基本运行环境（FAISS向量库）。如果要使用 milvus/pg_vector 等向量库，请将 requirements.txt 中相应依赖取消注释再安装。
 ```
@@ -339,17 +123,6 @@ $ pip install -r requirements_webui.txt
 下载模型需要先[安装 Git LFS](https://docs.github.com/zh/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
 ，然后运行
 
-ubuntu 安装 Git LFS
-
-```Shell
-# 更新包列表：首先，打开终端并运行以下命令来更新你的包管理器的包列表：
-$ sudo apt update
-# 安装Git LFS：使用apt包管理器安装Git LFS：
-$ sudo apt-get install git-lfs
-# 设置Git LFS：安装完成后，你需要设置Git LFS。使用以下命令来初始化Git LFS：
-$ git lfs install
-```
-
 ```Shell
 $ git lfs install
 $ git clone https://huggingface.co/THUDM/chatglm3-6b
@@ -363,7 +136,7 @@ $ git clone https://huggingface.co/BAAI/bge-large-zh
 ```shell
 $ python copy_config_example.py
 $ python init_database.py --recreate-vs
-```
+ ```
 
 ### 4. 一键启动
 
@@ -396,19 +169,20 @@ $ python startup.py -a
 以上方式只是为了快速上手，如果需要更多的功能和自定义启动方式
 ，请参考[Wiki](https://github.com/chatchat-space/Langchain-Chatchat/wiki/)
 
+
 ---
 
 ## 项目里程碑
 
-- `2023年4月`: `Langchain-ChatGLM 0.1.0` 发布，支持基于 ChatGLM-6B 模型的本地知识库问答。
-- `2023年8月`: `Langchain-ChatGLM` 改名为 `Langchain-Chatchat`，`0.2.0` 发布，使用 `fastchat` 作为模型加载方案，支持更多的模型和数据库。
-- `2023年10月`: `Langchain-Chatchat 0.2.5` 发布，推出 Agent 内容，开源项目在`Founder Park & Zhipu AI & Zilliz`
++ `2023年4月`: `Langchain-ChatGLM 0.1.0` 发布，支持基于 ChatGLM-6B 模型的本地知识库问答。
++ `2023年8月`: `Langchain-ChatGLM` 改名为 `Langchain-Chatchat`，`0.2.0` 发布，使用 `fastchat` 作为模型加载方案，支持更多的模型和数据库。
++ `2023年10月`: `Langchain-Chatchat 0.2.5` 发布，推出 Agent 内容，开源项目在`Founder Park & Zhipu AI & Zilliz`
   举办的黑客马拉松获得三等奖。
-- `2023年12月`: `Langchain-Chatchat` 开源项目获得超过 **20K** stars.
-- `2024年1月`: `LangChain 0.1.x` 推出，`Langchain-Chatchat 0.2.x` 发布稳定版本`0.2.10`
++ `2023年12月`: `Langchain-Chatchat` 开源项目获得超过 **20K** stars.
++ `2024年1月`: `LangChain 0.1.x` 推出，`Langchain-Chatchat 0.2.x` 发布稳定版本`0.2.10`
   后将停止更新和技术支持，全力研发具有更强应用性的 `Langchain-Chatchat 0.3.x`。
 
-- 🔥 让我们一起期待未来 Chatchat 的故事 ···
++ 🔥 让我们一起期待未来 Chatchat 的故事 ···
 
 ---
 
@@ -419,8 +193,7 @@ $ python startup.py -a
 [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white "langchain-chatglm")](https://t.me/+RjliQ3jnJ1YyN2E9)
 
 ### 项目交流群
-
-<img src="img/qr_code_91.jpg" alt="二维码" width="300" />
+<img src="img/qr_code_94.jpg" alt="二维码" width="300" />
 
 🎉 Langchain-Chatchat 项目微信交流群，如果你也对本项目感兴趣，欢迎加入群聊参与讨论交流。
 

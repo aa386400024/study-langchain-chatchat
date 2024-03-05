@@ -1,18 +1,17 @@
-import nltk  # 导入nltk库
-import sys  # 导入sys库
-import os  # 导入os库
+import nltk
+import sys
+import os
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))  # 将当前文件所在目录的上级目录添加到sys.path中
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-# 导入必要的模块和配置
-from configs import VERSION  # 导入VERSION配置
-from configs.model_config import NLTK_DATA_PATH  # 导入NLTK_DATA_PATH配置
-from configs.server_config import OPEN_CROSS_DOMAIN  # 导入OPEN_CROSS_DOMAIN配置
-import argparse  # 导入argparse模块
-import uvicorn  # 导入uvicorn模块
-from fastapi import Body  # 导入Body类
-from fastapi.middleware.cors import CORSMiddleware # 导入CORS中间件
-from starlette.responses import RedirectResponse # 引入RedirectResponse类，用于生成重定向响应
+from configs import VERSION
+from configs.model_config import NLTK_DATA_PATH
+from configs.server_config import OPEN_CROSS_DOMAIN
+import argparse
+import uvicorn
+from fastapi import Body
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import RedirectResponse
 from server.chat.chat import chat
 from server.chat.search_engine_chat import search_engine_chat
 from server.chat.completion import completion
@@ -29,28 +28,16 @@ nltk.data.path = [NLTK_DATA_PATH] + nltk.data.path
 
 
 async def document():
-    """
-    异步函数，返回一个重定向响应对象，将用户重定向到/docs页面。
-    """
     return RedirectResponse(url="/docs")
 
 
 def create_app(run_mode: str = None):
-    """
-    创建FastAPI应用程序实例
-
-    Args:
-        run_mode (str, optional): 运行模式，默认为None。默认情况下，不设置运行模式。如果设置了运行模式，则会根据运行模式挂载相应的路由。默认为None。
-
-    Returns:
-        FastAPI: FastAPI应用程序实例
-    """
     app = FastAPI(
         title="Langchain-Chatchat API Server",
         version=VERSION
     )
     MakeFastAPIOffline(app)
-    # 添加CORS中间件以允许所有来源
+    # Add CORS middleware to allow all origins
     # 在config.py中设置OPEN_DOMAIN=True，允许跨域
     # set OPEN_DOMAIN=True in config.py to allow cross-domain
     if OPEN_CROSS_DOMAIN:
@@ -66,24 +53,11 @@ def create_app(run_mode: str = None):
 
 
 def mount_app_routes(app: FastAPI, run_mode: str = None):
-    """
-    配置应用程序路由
-
-    参数:
-        app (FastAPI): FastAPI应用程序实例
-        run_mode (str, optional): 运行模式，默认为None
-
-    返回:
-        None
-    """
-    app.get("/", response_model=BaseResponse, summary="swagger 文档")(document)
+    app.get("/",
+            response_model=BaseResponse,
+            summary="swagger 文档")(document)
 
     # Tag: Chat
-    """
-    这段代码定义了一个处理POST请求的路由，用于实现与语言模型(llm)的对话功能。通过使用FastAPI框架的app.post装饰器，
-    设置路由路径为`/chat/chat`。该路由被标记有`Chat`标签，并且提供了一个简要描述：`与llm模型对话(通过LLMChain)`。
-    当该路由接收到POST请求时，会调用`chat`函数来处理请求，并与语言模型进行交互。
-    """
     app.post("/chat/chat",
              tags=["Chat"],
              summary="与llm模型对话(通过LLMChain)",
@@ -148,16 +122,6 @@ def mount_app_routes(app: FastAPI, run_mode: str = None):
         type: Literal["llm_chat", "knowledge_base_chat", "search_engine_chat", "agent_chat"]=Body("llm_chat", description="模板类型，可选值：llm_chat，knowledge_base_chat，search_engine_chat，agent_chat"),
         name: str = Body("default", description="模板名称"),
     ) -> str:
-        """
-        获取服务器配置的prompt模板
-
-        参数:
-            type (Literal): 模板类型
-            name (str): 模板名称
-
-        返回:
-            str: prompt模板
-        """
         return get_prompt_template(type=type, name=name)
 
     # 其它接口

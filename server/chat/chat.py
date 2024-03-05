@@ -16,33 +16,7 @@ from server.memory.conversation_db_buffer_memory import ConversationBufferDBMemo
 from server.db.repository import add_message_to_db
 from server.callback_handler.conversation_callback_handler import ConversationCallbackHandler
 
-"""
-这个异步函数`chat`定义了一个用于处理与语言模型进行交互的接口，接收以下参数：
 
-- query: 用户的输入字符串，必填项。描述了用户想要发送给模型的信息。
-  示例：["恼羞成怒"] 表示用户输入的例子。
-
-- conversation_id: 对话的唯一标识符，用于追踪对话状态。默认为空字符串。
-
-- history_len: 一个整数，表示从数据库中取出的历史消息数量。默认为-1，表示不从数据库中读取历史消息。
-
-- history: 可以是一个整数或是一个历史对话列表。如果是整数，表示将从数据库中读取指定数量的历史消息；
-  如果是列表，直接包含了历史对话内容。列表中的每个项是一个有`role`和`content`键的字典，分别表示发言者角色和内容。
-  示例：[{"role": "user", "content": "我们来玩成语接龙，我先来，生龙活虎"},
-        {"role": "assistant", "content": "虎头虎脑"}] 表示一段历史对话的例子。
-
-- stream: 布尔值，表示是否以流式的形式输出结果。默认为False。
-
-- model_name: 使用的语言模型名称，默认为`LLM_MODELS`列表中的第一个模型名称。
-
-- temperature: 用于控制LLM生成的多样性的温度参数。值越高，生成的内容越随机。取值范围为0.0到2.0。
-
-- max_tokens: 可选参数，用于限制LLM生成的最大Token数量。如果为None，则不限制Token数量，使用模型的最大值。
-
-- prompt_name: 使用的prompt模板名称，默认为"default"。这个名称对应`configs/prompt_config.py`中配置的模板。
-
-函数处理收到的用户输入和相关信息，与指定的语言模型进行交云，并根据模型返回的结果生成响应。
-"""
 async def chat(query: str = Body(..., description="用户输入", examples=["恼羞成怒"]),
                conversation_id: str = Body("", description="对话框ID"),
                history_len: int = Body(-1, description="从数据库中取历史消息的数量"),
