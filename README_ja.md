@@ -111,16 +111,16 @@ LangChain-Chachat `0.2.x` シリーズは Langchain `0.0.x` シリーズ用で�
 通常、オープンソースの LLM と Embedding モデルは Hugging Face からダウンロードできる。
 
 このプロジェクトで使用されているデフォルトの LLM
-モデルである [THUDM/chatglm2-6b](https://hf-mirror.com/THUDM/chatglm2-6b)と、Embedding
-モデル [moka-ai/m3e-base](https://hf-mirror.com/moka-ai/m3e-base) を例にとると、次のようになります:
+モデルである [THUDM/chatglm2-6b](https://huggingface.co/THUDM/chatglm2-6b)と、Embedding
+モデル [moka-ai/m3e-base](https://huggingface.co/moka-ai/m3e-base) を例にとると、次のようになります:
 
 モデルをダウンロードするには、まず [Git LFS](https://docs.github.com/zh/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
 をインストールし、次のように実行する必要があります:
 
 ```Shell
 $ git lfs install
-$ git clone https://hf-mirror.com/THUDM/chatglm2-6b
-$ git clone https://hf-mirror.com/moka-ai/m3e-base
+$ git clone https://huggingface.co/THUDM/chatglm2-6b
+$ git clone https://huggingface.co/moka-ai/m3e-base
 ```
 
 ### ナレッジベースと設定ファイルの初期化
