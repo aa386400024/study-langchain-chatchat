@@ -6,7 +6,7 @@ import os
 MODEL_ROOT_PATH = ""
 
 # 选用的 Embedding 名称
-EMBEDDING_MODEL = "bge-large-zh-v1.5"
+EMBEDDING_MODEL = "bge-large-zh"
 
 # Embedding 模型运行设备。设为 "auto" 会自动检测(会有警告)，也可手动设定为 "cuda","mps","cpu","xpu" 其中之一。
 EMBEDDING_DEVICE = "auto"
@@ -153,10 +153,10 @@ MODEL_PATH = {
 
         "bge-small-zh": "BAAI/bge-small-zh",
         "bge-base-zh": "BAAI/bge-base-zh",
-        "bge-large-zh": "BAAI/bge-large-zh",
+        "bge-large-zh": "/root/models/bge-large-zh",
         "bge-large-zh-noinstruct": "BAAI/bge-large-zh-noinstruct",
         "bge-base-zh-v1.5": "BAAI/bge-base-zh-v1.5",
-        "bge-large-zh-v1.5": "BAAI/bge-large-zh-v1.5",
+        "bge-large-zh-v1.5": "/root/models/bge-large-zh-v1.5",
 
         "bge-m3": "BAAI/bge-m3",
 
@@ -169,7 +169,7 @@ MODEL_PATH = {
     "llm_model": {
         "chatglm2-6b": "THUDM/chatglm2-6b",
         "chatglm2-6b-32k": "THUDM/chatglm2-6b-32k",
-        "chatglm3-6b": "THUDM/chatglm3-6b",
+        "chatglm3-6b": "/root/models/chatglm3-6b",
         "chatglm3-6b-32k": "THUDM/chatglm3-6b-32k",
 
         "Orion-14B-Chat": "OrionStarAI/Orion-14B-Chat",
