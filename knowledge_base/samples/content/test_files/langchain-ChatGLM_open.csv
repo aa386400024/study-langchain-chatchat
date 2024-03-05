@@ -18,7 +18,7 @@
 16,AttributeError: 'NoneType' object has no attribute 'as_retriever',2023-04-14.00,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/86,"环境：windows 11, anaconda/python 3.8",16
 17,FileNotFoundError: Could not find module 'nvcuda.dll' (or one of its dependencies). Try using the full path with constructor syntax.,2023-04-14.00,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/87,请检查一下cuda或cudnn是否存在安装问题,17
 18,加载txt文件失败？,2023-04-14.00,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/89,![JppHrGOWFa](https://user-images.githubusercontent.com/109277248/232009383-bf7c46d1-a01e-4e0a-9de6-5b5ed3e36158.jpg),18
-19,NameError: name 'chatglm' is not defined,2023-04-14.00,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/90,"This share link expires in 72 hours. For free permanent hosting and GPU upgrades (NEW!), check out Spaces: https://huggingface.co/spaces",19
+19,NameError: name 'chatglm' is not defined,2023-04-14.00,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/90,"This share link expires in 72 hours. For free permanent hosting and GPU upgrades (NEW!), check out Spaces: https://hf-mirror.com/spaces",19
 20,打不开地址？,2023-04-14.00,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/91,报错数据如下：,20
 21,加载md文件出错,2023-04-14.00,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/98,运行 webui.py后能访问页面，上传一个md文件后，日志中有错误。等待后能加载完成，提示可以提问了，但提问没反应，日志中有错误。 具体日志如下。,21
 22,建议增加获取在线知识的能力,2023-04-15.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/101,建议增加获取在线知识的能力,22
@@ -30,7 +30,7 @@
 28,安装依赖报错,2023-04-17.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/115,(test) C:\Users\linh\Desktop\langchain-ChatGLM-master>pip install -r requirements.txt,28
 29,问特定问题会出现爆显存,2023-04-17.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/117,正常提问没问题。,29
 30,Expecting value: line 1 column 1 (char 0),2023-04-17.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/118,运行后 第一步加载配置一直报错：,30
-31,embedding  https://huggingface.co/GanymedeNil/text2vec-large-chinese/tree/main是免费的，效果比对openai的如何？,2023-04-17.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/119,-------------------------------------------------------------------------------,31
+31,embedding  https://hf-mirror.com/GanymedeNil/text2vec-large-chinese/tree/main是免费的，效果比对openai的如何？,2023-04-17.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/119,-------------------------------------------------------------------------------,31
 32,这是什么错误，在Colab上运行的。,2023-04-17.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/120,libcuda.so.1: cannot open shared object file: No such file or directory,32
 33,只想用自己的lora微调后的模型进行对话，不想加载任何本地文档，该如何调整？,2023-04-18.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/121,能出一个单独的教程吗,33
 34,"租的gpu,Running on local URL:  http://0.0.0.0:7860  To create a public link, set `share=True` in `launch()`.  浏览器上访问不了？？？",2023-04-18.01,https://github.com/imClumsyPanda/langchain-ChatGLM/issues/122,(chatglm20230401) root@autodl-container-e82d11963c-10ece0d7:~/autodl-tmp/chatglm/langchain-ChatGLM-20230418# python3.9 webui.py,34

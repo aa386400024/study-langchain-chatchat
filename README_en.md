@@ -113,8 +113,8 @@ Langchain `0.1.x` series version, you need to downgrade.
 If you need to run this project locally or in an offline environment, you must first download the required models for
 the project. Typically, open-source LLM and Embedding models can be downloaded from HuggingFace.
 
-Taking the default LLM model used in this project, [THUDM/chatglm2-6b](https://huggingface.co/THUDM/chatglm2-6b), and
-the Embedding model [moka-ai/m3e-base](https://huggingface.co/moka-ai/m3e-base) as examples:
+Taking the default LLM model used in this project, [THUDM/chatglm2-6b](https://hf-mirror.com/THUDM/chatglm2-6b), and
+the Embedding model [moka-ai/m3e-base](https://hf-mirror.com/moka-ai/m3e-base) as examples:
 
 To download the models, you need to first
 install [Git LFS](https://docs.github.com/zh/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
@@ -122,8 +122,8 @@ and then run:
 
 ```Shell
 $ git lfs install
-$ git clone https://huggingface.co/THUDM/chatglm2-6b
-$ git clone https://huggingface.co/moka-ai/m3e-base
+$ git clone https://hf-mirror.com/THUDM/chatglm2-6b
+$ git clone https://hf-mirror.com/moka-ai/m3e-base
 ```
 
 ### Initializing the Knowledge Base and Config File
